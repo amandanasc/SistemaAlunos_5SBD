@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SistemaDeAlunos.Models;
+using SistemaDeAlunos.Repositorios.Interfaces;
 
 namespace SistemaDeAlunos.Controllers
 {
@@ -8,85 +9,48 @@ namespace SistemaDeAlunos.Controllers
     [ApiController]
     public class TurmaController : ControllerBase
     {
-        [HttpGet]
-        public ActionResult<List<AlunoModel>> BuscarTodosAlunos()
+        private readonly ITurmaRepositorio _turmaRepositorio;
+
+        public TurmaController(ITurmaRepositorio turmaRepositorio)
         {
-            return Ok();
+            _turmaRepositorio = turmaRepositorio;
         }
 
-        //// GET: HomeController
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
+        [HttpGet]
+        public async Task<ActionResult<List<TurmaModel>>> BuscarTodasTurmas()
+        {
+            List<TurmaModel> turmas = await _turmaRepositorio.BuscarTodasTurmas();
+            return Ok(turmas);
+        }
 
-        //// GET: HomeController/Details/5
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<TurmaModel>>> BuscarPorId(int id)
+        {
+            TurmaModel turma = await _turmaRepositorio.BuscarPorId(id);
+            return Ok(turma);
+        }
 
-        //// GET: HomeController/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
+        [HttpPost]
+        public async Task<ActionResult<TurmaModel>> Cadastrar([FromBody] TurmaModel turma)
+        {
+            TurmaModel result = await _turmaRepositorio.Adicionar(turma);
+            return Ok(result);
+        }
 
-        //// POST: HomeController/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create(IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+        [HttpPut]
+        public async Task<ActionResult<TurmaModel>> Atualizar([FromBody] TurmaModel turma, int id)
+        {
+            turma.Id = id;
 
-        //// GET: HomeController/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
+            TurmaModel result = await _turmaRepositorio.Atualizar(turma, id);
+            return Ok(result);
+        }
 
-        //// POST: HomeController/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //// GET: HomeController/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: HomeController/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+        [HttpDelete]
+        public async Task<ActionResult<TurmaModel>> Apagar([FromBody] TurmaModel turma, int id)
+        {
+            bool result = await _turmaRepositorio.Apagar(id);
+            return Ok(result);
+        }
     }
 }

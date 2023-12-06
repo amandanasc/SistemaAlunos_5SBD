@@ -16,12 +16,16 @@ namespace SistemaDeTurmas.Repositorios
 
         public async Task<TurmaModel> BuscarPorId(int id)
         {
-            return await _dbContext.Turmas.FirstOrDefaultAsync(x => x.Id == id);
+            return await _dbContext.Turmas
+                .Include(x => x.Aluno)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<List<TurmaModel>> BuscarTodosTurmas()
+        public async Task<List<TurmaModel>> BuscarTodasTurmas()
         {
-            return await _dbContext.Turmas.ToListAsync();
+            return await _dbContext.Turmas
+                .Include(x => x.Aluno)
+                .ToListAsync();
         }
 
         public async Task<TurmaModel> Adicionar(TurmaModel Turma)
@@ -37,14 +41,15 @@ namespace SistemaDeTurmas.Repositorios
 
             if (TurmaPorId == null)
             {
-                throw new Exception($"Usuário com ID: {id} não foi encontrado.");
+                throw new Exception($"Turma com ID: {id} não foi encontrada.");
             }
 
             TurmaPorId.Disciplina = Turma.Disciplina;
             TurmaPorId.Professor = Turma.Professor;
-            TurmaPorId.Sala = Turma.Sala;
+            TurmaPorId.Sala = Turma.Sala; 
+            TurmaPorId.AlunoId = Turma.AlunoId;
 
-            _dbContext.Update(TurmaPorId);
+            _dbContext.Turmas.Update(TurmaPorId);
             _dbContext.SaveChanges();
 
             return TurmaPorId;
@@ -56,7 +61,7 @@ namespace SistemaDeTurmas.Repositorios
 
             if (TurmaPorId == null)
             {
-                throw new Exception($"Usuário com ID: {id} não foi encontrado.");
+                throw new Exception($"Turma com ID: {id} não foi encontrada.");
             }
 
             _dbContext.Turmas.Remove(TurmaPorId);

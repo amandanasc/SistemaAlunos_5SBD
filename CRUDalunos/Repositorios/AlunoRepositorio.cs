@@ -43,7 +43,7 @@ namespace SistemaDeAlunos.Repositorios
             AlunoPorId.Nome = Aluno.Nome;
             AlunoPorId.Email = Aluno.Email;
 
-            _dbContext.Update(AlunoPorId);
+            _dbContext.Alunos.Update(AlunoPorId);
             _dbContext.SaveChanges();
 
             return AlunoPorId;

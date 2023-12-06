@@ -4,7 +4,7 @@ namespace SistemaDeAlunos.Repositorios.Interfaces
 {
     public interface ITurmaRepositorio
     {
-        Task<List<TurmaModel>> BuscarTodosTurmas();
+        Task<List<TurmaModel>> BuscarTodasTurmas();
         Task<TurmaModel> BuscarPorId(int id);
         Task<TurmaModel> Adicionar(TurmaModel Turma);
         Task<TurmaModel> Atualizar(TurmaModel Turma, int id);

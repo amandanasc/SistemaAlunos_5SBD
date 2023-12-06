@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SistemaDeAlunos.Data;
 
@@ -11,9 +12,10 @@ using SistemaDeAlunos.Data;
 namespace SistemaDeAlunos.Migrations
 {
     [DbContext(typeof(SistemaAlunosDBContext))]
-    partial class SistemaAlunosDBContextModelSnapshot : ModelSnapshot
+    [Migration("20231206133243_VinculoTurmaAluno")]
+    partial class VinculoTurmaAluno
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

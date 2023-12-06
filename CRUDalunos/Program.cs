@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SistemaDeAlunos.Data;
 using SistemaDeAlunos.Repositorios;
 using SistemaDeAlunos.Repositorios.Interfaces;
+using SistemaDeTurmas.Repositorios;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ builder.Services.AddEntityFrameworkSqlServer()
     );
 
 builder.Services.AddScoped<IAlunoRepositorio, AlunoRepositorio>();
+builder.Services.AddScoped<ITurmaRepositorio, TurmaRepositorio>();
 
 var app = builder.Build();
 

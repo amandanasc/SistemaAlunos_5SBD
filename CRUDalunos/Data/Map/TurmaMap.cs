@@ -12,6 +12,9 @@ namespace SistemaDeAlunos.Data.Map
             builder.Property(x => x.Disciplina).IsRequired().HasMaxLength(255);
             builder.Property(x => x.Professor).IsRequired().HasMaxLength(255);
             builder.Property(x => x.Sala).HasMaxLength(30);
+            builder.Property(x => x.AlunoId);
+
+            builder.HasOne(x => x.Aluno);
         }
     }
 }
